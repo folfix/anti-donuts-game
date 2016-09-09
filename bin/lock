@@ -1,0 +1,49 @@
+#!/bin/bash
+
+#settings
+CURSOR_OFFSET=100
+SCREENSHOTS_PATH=~/Desktop
+PID_PATH=/tmp
+
+
+export `xdotool getmouselocation --shell`
+oldX=$X
+oldY=$Y
+oldWINDOW=$WINDOW
+oldSCREEN=$SCREEN
+oldBashCount=`ps -fe | grep bash | wc -l`
+condition=true
+
+echo $$ > $PID_PATH/lock.pid
+notify-send "Smart-lock enabled"
+
+
+while $condition ; do
+
+	export `xdotool getmouselocation --shell`		#assign new mouse position
+	bashCount=`ps -fe | grep bash | wc -l`	#assign actual running bash count
+
+	if [[ $X -gt $oldX ]] ; then
+		offsetX=`expr $X - $oldX`
+	else
+		offsetX=`expr $oldX - $X`
+	fi
+
+	if [[ $Y -gt $oldY ]] ; then
+    	offsetY=`expr $Y - $oldY`
+    else
+    	offsetY=`expr $oldY - $Y`
+    fi	
+
+	if [[ $offsetX -gt $CURSOR_OFFSET ]] || [[ $offsetY -gt $CURSOR_OFFSET ]] || [[ $oldWINDOW -ne $WINDOW ]] || [[ $oldSCREEN -ne $SCREEN ]] || [[ $oldBashCount -ne $bashCount ]] ; then
+		
+		cinnamon-screensaver-command -l
+		time=`date +%H:%M:%S`
+		notify-send "Got ya: $time" -u critical
+		
+		time=`date +'%Y%m%d_%H%M%S'`
+		streamer -f jpeg -o $SCREENSHOTS_PATH/smart-lock-$time.jpeg -q
+		
+		condition=false		
+	fi
+done

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#settings
+PID_PATH=/tmp
+
+
+pid=`cat $PID_PATH/lock.pid`
+kill $pid
+
+notify-send "Smart-lock disabled"
+
+rm $PID_FILE

@@ -11,7 +11,8 @@ oldX=$X
 oldY=$Y
 oldWINDOW=$WINDOW
 oldSCREEN=$SCREEN
-oldBashCount=`ps -fe | grep bash | wc -l`
+oldBashCount=`ps -e | grep bash | wc -l`
+#oldBashCount=`expr $oldBashCount - 1`
 condition=true
 
 echo $$ > $PID_PATH/lock.pid
@@ -20,8 +21,8 @@ notify-send "Smart-lock enabled"
 
 while $condition ; do
 
-	export `xdotool getmouselocation --shell`		#assign new mouse position
-	bashCount=`ps -fe | grep bash | wc -l`	#assign actual running bash count
+	export `xdotool getmouselocation --shell` #assign new mouse position
+	bashCount=`ps -e | grep bash | wc -l` #assign actual running bash count
 
 	if [[ $X -gt $oldX ]] ; then
 		offsetX=`expr $X - $oldX`
@@ -36,7 +37,7 @@ while $condition ; do
     fi	
 
 	if [[ $offsetX -gt $CURSOR_OFFSET ]] || [[ $offsetY -gt $CURSOR_OFFSET ]] || [[ $oldWINDOW -ne $WINDOW ]] || [[ $oldSCREEN -ne $SCREEN ]] || [[ $oldBashCount -ne $bashCount ]] ; then
-		
+
 		cinnamon-screensaver-command -l
 		time=`date +%H:%M:%S`
 		notify-send "Got ya: $time" -u critical

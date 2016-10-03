@@ -12,7 +12,6 @@ oldY=$Y
 oldWINDOW=$WINDOW
 oldSCREEN=$SCREEN
 oldBashCount=`ps -e | grep bash | wc -l`
-#oldBashCount=`expr $oldBashCount - 1`
 condition=true
 
 echo $$ > $PID_PATH/lock.pid
@@ -36,7 +35,11 @@ while $condition ; do
     	offsetY=`expr $oldY - $Y`
     fi	
 
-	if [[ $offsetX -gt $CURSOR_OFFSET ]] || [[ $offsetY -gt $CURSOR_OFFSET ]] || [[ $oldWINDOW -ne $WINDOW ]] || [[ $oldSCREEN -ne $SCREEN ]] || [[ $oldBashCount -ne $bashCount ]] ; then
+	if [[ $offsetX -gt $CURSOR_OFFSET ]] \
+	|| [[ $offsetY -gt $CURSOR_OFFSET ]] \
+	|| [[ $oldWINDOW -ne $WINDOW ]] \
+	|| [[ $oldSCREEN -ne $SCREEN ]] \
+	|| [[ $oldBashCount -ne $bashCount ]] ; then
 
 		cinnamon-screensaver-command -l
 		time=`date +%H:%M:%S`

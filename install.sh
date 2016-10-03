@@ -43,5 +43,5 @@ cp bin/lock $lock_dest
 cp bin/unlock $unlock_dest
 
 echo "[INFO] Copying successfully completed."
-echo "[INFO] Now add shortcut UNLOCK script."
+echo "[INFO] Now add shortcut for UNLOCK script."
 

@@ -48,6 +48,7 @@ while $condition ; do
 		time=`date +'%Y%m%d_%H%M%S'`
 		streamer -f jpeg -o $SCREENSHOTS_PATH/smart-lock-$time.jpeg -q
 		
-		condition=false		
+		condition=false	
+		rm $PID_PATH/lock.pid
 	fi
 done

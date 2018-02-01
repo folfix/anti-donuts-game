@@ -21,6 +21,8 @@ It simply track mouse position. In situation when mouse has been used by non aut
 Common:
 - xdotool (mouse posiotion)
 - streamer (photo capture)
+- inotify-tools (watch if file change)
+- xev (Xserver event handler)
 
 **Tested only on Linux Mint 17 & 18**
 
